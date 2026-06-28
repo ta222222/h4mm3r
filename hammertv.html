@@ -23,9 +23,9 @@
   </button>
   <nav class="nav-main" id="siteNav">
     <a href="index.html">Features</a>
+    <a href="about.html">About</a>
     <a href="submissions.html">Submissions</a>
     <a href="hammertv.html" class="active">Hammer TV</a>
-    <a href="about.html">About</a>
   </nav>
   <div class="header-right">
     <span class="clock" id="datetime"></span>
@@ -41,6 +41,7 @@
            data-dek="Editorial preview of the summer issue. Features, contributors, research board walkthrough. Full version for subscribers."
            data-duration="24:00"
            data-img="https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/RIMG0749.webp"
+           data-video="https://cdn.jsdelivr.net/gh/ta222222/hammer@main/pix/DSCN4541.webm"
            data-locked="false">
         <img class="tv-player-poster" id="tvPlayerPoster" src="https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/RIMG0749.webp" alt="" decoding="async" fetchpriority="high" />
         <div class="tv-player-overlay" id="tvPlayerOverlay">
@@ -237,6 +238,43 @@
     <h2 class="tv-paywall-title" id="tvPaywallTitle">Studio Visit — Cleo Park</h2>
     <p class="tv-paywall-dek">Subscribe to Hammer TV to watch the full library — films, talks, studio visits, and live sessions.</p>
     <button type="button" class="tv-subscribe-btn" id="tvPaywallSubscribe">Subscribe · $8 / mo</button>
+  </div>
+</div>
+
+<div class="tv-float-modal" id="tvVideoModal" hidden aria-hidden="true">
+  <div class="tv-float-modal-scrim" id="tvVideoModalScrim" aria-hidden="true"></div>
+  <div class="tv-float-modal-panel" role="dialog" aria-modal="true" aria-labelledby="tvFloatTitle">
+    <header class="tv-float-modal-head">
+      <div class="tv-float-modal-labels">
+        <p class="tv-float-modal-kicker">Hammer TV · Issue 02 · Preview</p>
+        <h2 class="tv-float-modal-title" id="tvFloatTitle">Issue 02 — Preview Film</h2>
+      </div>
+      <button type="button" class="tv-float-modal-close" id="tvFloatClose" aria-label="Close">×</button>
+    </header>
+    <div class="tv-float-modal-stage">
+      <video id="tvFloatVideo" playsinline webkit-playsinline preload="auto">
+        <source id="tvFloatSource"
+          src="https://cdn.jsdelivr.net/gh/ta222222/hammer@main/pix/DSCN4541.webm"
+          type="video/webm" />
+      </video>
+    </div>
+    <div class="tv-float-modal-controls">
+      <button type="button" class="tv-float-btn" id="tvFloatPlay" aria-label="Play">▶</button>
+      <label class="tv-float-progress-wrap">
+        <span class="visually-hidden">Seek</span>
+        <input type="range" class="tv-float-progress" id="tvFloatSeek" min="0" max="1000" value="0" step="1" />
+      </label>
+      <span class="tv-float-time" id="tvFloatTime" aria-live="polite">0:00 / 0:00</span>
+      <button type="button" class="tv-float-btn tv-float-btn-text" id="tvFloatMute" aria-label="Mute">Sound</button>
+    </div>
+    <footer class="tv-float-modal-foot">
+      <span>DSCN4541</span>
+      <span>·</span>
+      <span>WebM</span>
+      <span>·</span>
+      <span>Preview</span>
+      <span class="tv-float-modal-status" id="tvFloatStatus" hidden></span>
+    </footer>
   </div>
 </div>
 

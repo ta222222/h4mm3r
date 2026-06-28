@@ -27,7 +27,7 @@ const scheduleIdle = typeof requestIdleCallback === "function"
   : (cb) => setTimeout(cb, 1);
 
 (function initPerf() {
-  const skipLazy = ".intro-splash, .site-header, .hero, .tv-player, .tv-player-poster";
+  const skipLazy = ".intro-splash, .intro-flash, .site-header, .hero, .tv-player, .tv-player-poster, .tv-float-modal-stage video";
   document.querySelectorAll("img:not([loading])").forEach((img) => {
     if (img.closest(skipLazy)) {
       if (!img.getAttribute("fetchpriority")) img.fetchPriority = "high";
@@ -104,10 +104,19 @@ modeToggle?.addEventListener("click", () => {
   const MONTAGE_EXIT_MS = 150;
   const MONTAGE_CROSSFADE_MS = 100;
   const MONTAGE_MS_PER_PHOTO = 200;
+  const MONTAGE_LOGO_MS = 450;
+  const MONTAGE_LOGO_BLINK_ON_MS = 90;
+  const FLASH_BLINK_CYCLES = 2;
+  const FLASH_BLINK_ON_MS = 300;
+  const FLASH_BLINK_OFF_MS = 300;
+  const FLASH_FINAL_HOLD_MS = 450;
+  const HERMES_FLASH_URL =
+    "https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/hermes-bag.jpeg";
 
   let endTimer = null;
   let stepTimers = [];
   let playing = false;
+  let flashAfterMontage = false;
 
   function clearMontageTimers() {
     stepTimers.forEach((id) => clearTimeout(id));
@@ -125,6 +134,7 @@ modeToggle?.addEventListener("click", () => {
   );
 
   const carousel = slide.parentElement;
+  const introLogo = splash.querySelector(".intro-logo");
   let frontEl = slide;
   let backEl = slide.cloneNode(false);
   backEl.removeAttribute("id");
@@ -158,10 +168,125 @@ modeToggle?.addEventListener("click", () => {
     return shuffled.map((p) => pix + p);
   }
 
-  function playMontage() {
+  function delay(ms) {
+    return new Promise((resolve) => {
+      const id = setTimeout(resolve, ms);
+      stepTimers.push(id);
+    });
+  }
+
+  function finishMontage() {
+    splash.classList.remove("is-playing", "is-done", "is-logo-beat", "is-photo-montage");
+    introLogo?.classList.remove("is-off");
+    playing = false;
+    if (flashAfterMontage) {
+      flashAfterMontage = false;
+      playHermesFlash(showNavLogo);
+      return;
+    }
+    showNavLogo();
+  }
+
+  function playHermesFlash(done) {
+    const flash = document.getElementById("introFlash");
+    const img = flash?.querySelector("img");
+    const frame = flash?.querySelector(".intro-flash-frame");
+    if (!flash || !img) {
+      done?.();
+      return;
+    }
+
+    function hideFlash() {
+      flash.classList.remove("is-active", "is-blinking");
+      flash.hidden = true;
+      flash.setAttribute("aria-hidden", "true");
+      frame?.classList.remove("is-off");
+      document.body.classList.remove("intro-active");
+      done?.();
+    }
+
+    function exitFlash(delay) {
+      const fadeId = setTimeout(() => {
+        flash.classList.remove("is-active");
+        const hideId = setTimeout(hideFlash, MONTAGE_EXIT_MS);
+        stepTimers.push(hideId);
+      }, delay);
+      stepTimers.push(fadeId);
+    }
+
+    function runBlinkSequence() {
+      if (!frame || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        frame?.classList.remove("is-off");
+        exitFlash(FLASH_FINAL_HOLD_MS);
+        return;
+      }
+
+      let cyclesLeft = FLASH_BLINK_CYCLES;
+      frame.classList.remove("is-off");
+      flash.classList.add("is-blinking");
+
+      function blinkOff() {
+        frame.classList.add("is-off");
+        stepTimers.push(setTimeout(blinkOn, FLASH_BLINK_OFF_MS));
+      }
+
+      function blinkOn() {
+        frame.classList.remove("is-off");
+        cyclesLeft--;
+        if (cyclesLeft <= 0) {
+          exitFlash(FLASH_FINAL_HOLD_MS);
+          return;
+        }
+        stepTimers.push(setTimeout(blinkOff, FLASH_BLINK_ON_MS));
+      }
+
+      stepTimers.push(setTimeout(blinkOff, FLASH_BLINK_ON_MS));
+    }
+
+    function revealFlash() {
+      document.body.classList.add("intro-active");
+      flash.hidden = false;
+      flash.setAttribute("aria-hidden", "false");
+      requestAnimationFrame(() => {
+        flash.classList.add("is-active");
+        runBlinkSequence();
+      });
+    }
+
+    function whenImageReady(cb) {
+      if (img.complete && img.naturalWidth > 0) {
+        img.decode().then(cb).catch(cb);
+        return;
+      }
+      img.addEventListener("load", () => {
+        img.decode().then(cb).catch(cb);
+      }, { once: true });
+      img.addEventListener("error", () => done?.(), { once: true });
+    }
+
+    whenImageReady(revealFlash);
+  }
+
+  function pulseMontageLogo() {
+    if (!introLogo || !playing) return;
+    introLogo.classList.remove("is-off");
+    const offId = setTimeout(() => {
+      if (!playing) return;
+      introLogo.classList.add("is-off");
+    }, MONTAGE_LOGO_BLINK_ON_MS);
+    stepTimers.push(offId);
+  }
+
+  function playMontage({ flashAfter = false } = {}) {
     if (playing) return;
+    flashAfterMontage = flashAfter;
     if (!pool.length) {
-      showNavLogo();
+      if (flashAfterMontage) {
+        flashAfterMontage = false;
+        preloadUrls([HERMES_FLASH_URL]).then(() => playHermesFlash(showNavLogo));
+      } else {
+        showNavLogo();
+      }
       return;
     }
     playing = true;
@@ -172,17 +297,23 @@ modeToggle?.addEventListener("click", () => {
     const urls = shuffledUrls();
     const photoCount = urls.length;
     const playMs = photoCount * MONTAGE_MS_PER_PHOTO;
+    const preloadList = flashAfterMontage ? urls.concat(HERMES_FLASH_URL) : urls;
 
     splash.classList.remove("is-done");
-    splash.classList.add("is-playing");
+    splash.classList.add("is-playing", "is-logo-beat");
     document.body.classList.add("intro-active");
 
-    frontEl.src = urls[0];
-    frontEl.classList.add("is-front");
+    frontEl.classList.remove("is-front");
     backEl.classList.remove("is-front");
 
-    preloadUrls(urls).then(() => {
+    Promise.all([preloadUrls(preloadList), delay(MONTAGE_LOGO_MS)]).then(() => {
       if (!playing) return;
+
+      splash.classList.remove("is-logo-beat");
+      splash.classList.add("is-photo-montage");
+      frontEl.src = urls[0];
+      frontEl.classList.add("is-front");
+      pulseMontageLogo();
 
       for (let step = 1; step < photoCount; step++) {
         const id = setTimeout(() => {
@@ -192,6 +323,7 @@ modeToggle?.addEventListener("click", () => {
           backEl.classList.add("is-front");
           frontEl.classList.remove("is-front");
           [frontEl, backEl] = [backEl, frontEl];
+          pulseMontageLogo();
         }, step * MONTAGE_MS_PER_PHOTO);
         stepTimers.push(id);
       }
@@ -199,11 +331,7 @@ modeToggle?.addEventListener("click", () => {
       endTimer = setTimeout(() => {
         splash.classList.add("is-done");
         document.body.classList.remove("intro-active");
-        const doneId = setTimeout(() => {
-          splash.classList.remove("is-playing", "is-done");
-          playing = false;
-          showNavLogo();
-        }, MONTAGE_EXIT_MS);
+        const doneId = setTimeout(finishMontage, MONTAGE_EXIT_MS);
         stepTimers.push(doneId);
       }, playMs);
     });
@@ -237,12 +365,12 @@ modeToggle?.addEventListener("click", () => {
   try {
     if (sessionStorage.getItem("hammer_reel") === "1") {
       sessionStorage.removeItem("hammer_reel");
-      playMontage();
+      playMontage({ flashAfter: true });
       return;
     }
   } catch (e) {}
 
-  if (shouldAutoPlayMontage()) playMontage();
+  if (shouldAutoPlayMontage()) playMontage({ flashAfter: true });
   else showNavLogo();
 })();
 
@@ -746,6 +874,20 @@ document.querySelectorAll("[data-reveal]").forEach((el) => revealObs.observe(el)
   const paywallClose = document.getElementById("tvPaywallClose");
   const paywallSubscribe = document.getElementById("tvPaywallSubscribe");
   const subscribeBtns = document.querySelectorAll(".tv-subscribe-btn");
+  const videoModal = document.getElementById("tvVideoModal");
+  const videoModalScrim = document.getElementById("tvVideoModalScrim");
+  const videoModalClose = document.getElementById("tvFloatClose");
+  const floatVideo = document.getElementById("tvFloatVideo");
+  const floatPlay = document.getElementById("tvFloatPlay");
+  const floatSeek = document.getElementById("tvFloatSeek");
+  const floatTime = document.getElementById("tvFloatTime");
+  const floatMute = document.getElementById("tvFloatMute");
+  const floatTitle = document.getElementById("tvFloatTitle");
+  const floatSource = document.getElementById("tvFloatSource");
+  const floatStatus = document.getElementById("tvFloatStatus");
+  const heroVideoSrc = player.dataset.video;
+  const heroVideoFallback =
+    "https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/DSCN4541.webm";
 
   let playing = false;
   let paused = false;
@@ -792,8 +934,120 @@ document.querySelectorAll("[data-reveal]").forEach((el) => revealObs.observe(el)
       dek: el.dataset.dek,
       duration: el.dataset.duration,
       img: el.dataset.img,
+      video: el.dataset.video,
       locked: el.dataset.locked === "true",
     };
+  }
+
+  function setFloatStatus(msg) {
+    if (!floatStatus) return;
+    if (!msg) {
+      floatStatus.hidden = true;
+      floatStatus.textContent = "";
+      return;
+    }
+    floatStatus.hidden = false;
+    floatStatus.textContent = msg;
+  }
+
+  function updateFloatControls() {
+    if (!floatVideo || !floatSeek || !floatTime) return;
+    const dur = floatVideo.duration;
+    const cur = floatVideo.currentTime;
+    if (Number.isFinite(dur) && dur > 0) {
+      floatSeek.value = String(Math.round((cur / dur) * 1000));
+      floatTime.textContent = `${fmt(cur)} / ${fmt(dur)}`;
+    } else {
+      floatTime.textContent = `${fmt(cur)} / 0:00`;
+    }
+    if (floatPlay) floatPlay.textContent = floatVideo.paused ? "▶" : "❚❚";
+    if (floatMute) floatMute.textContent = floatVideo.muted ? "Muted" : "Sound";
+  }
+
+  function ensureFloatSource(url) {
+    if (!floatVideo) return;
+    const target = url || heroVideoSrc;
+    if (floatSource) floatSource.src = target;
+    else floatVideo.src = target;
+    floatVideo.load();
+  }
+
+  function tryFloatPlay() {
+    if (!floatVideo) return;
+    floatVideo.play()
+      .then(() => {
+        setFloatStatus("");
+        updateFloatControls();
+      })
+      .catch(() => {
+        setFloatStatus("Press ▶ to play");
+        updateFloatControls();
+      });
+  }
+
+  function startFloatPlayback(fromSec = 0) {
+    if (!floatVideo) return;
+    setFloatStatus("");
+    ensureFloatSource(heroVideoSrc);
+
+    const begin = () => {
+      floatVideo.currentTime = fromSec;
+      tryFloatPlay();
+    };
+
+    if (floatVideo.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) {
+      begin();
+      return;
+    }
+
+    floatVideo.addEventListener("canplay", begin, { once: true });
+  }
+
+  function openVideoModal(data) {
+    if (!videoModal || !floatVideo || !heroVideoSrc) return;
+    if (floatTitle && data?.title) floatTitle.textContent = data.title;
+    delete floatVideo.dataset.fallbackTried;
+    videoModal.hidden = false;
+    videoModal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("tv-modal-open");
+    document.body.style.overflow = "hidden";
+    startFloatPlayback(0);
+    videoModalClose?.focus();
+  }
+
+  function closeVideoModal() {
+    if (!videoModal || !floatVideo) return;
+    floatVideo.pause();
+    delete floatVideo.dataset.fallbackTried;
+    setFloatStatus("");
+    videoModal.hidden = true;
+    videoModal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("tv-modal-open");
+    document.body.style.overflow = "";
+  }
+
+  function toggleFloatPlayback() {
+    if (!floatVideo) return;
+    if (floatVideo.paused) tryFloatPlay();
+    else floatVideo.pause();
+    updateFloatControls();
+  }
+
+  function handleFloatVideoError() {
+    if (!floatVideo) return;
+    const code = floatVideo.error?.code;
+    if (code === 4 && floatVideo.dataset.fallbackTried !== "1" && heroVideoFallback) {
+      floatVideo.dataset.fallbackTried = "1";
+      ensureFloatSource(heroVideoFallback);
+      startFloatPlayback(floatVideo.currentTime || 0);
+      return;
+    }
+    if (code === 4) {
+      setFloatStatus("WebM not supported in this browser — try Chrome or Firefox");
+    } else {
+      setFloatStatus("Video failed to load — press ▶ to retry");
+    }
+    updateFloatControls();
   }
 
   function stopPlayback() {
@@ -917,6 +1171,12 @@ document.querySelectorAll("[data-reveal]").forEach((el) => revealObs.observe(el)
 
   player.addEventListener("click", (e) => {
     if (e.target.closest(".tv-pause") || e.target.closest(".tv-player-controls")) return;
+    if (heroVideoSrc) {
+      e.preventDefault();
+      e.stopPropagation();
+      openVideoModal(cardData(player));
+      return;
+    }
     if (player.classList.contains("is-playing")) {
       togglePause();
       return;
@@ -927,6 +1187,10 @@ document.querySelectorAll("[data-reveal]").forEach((el) => revealObs.observe(el)
   player.addEventListener("keydown", (e) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
+      if (heroVideoSrc) {
+        openVideoModal(cardData(player));
+        return;
+      }
       if (player.classList.contains("is-playing")) togglePause();
       else playFromEl(player, false);
     }
@@ -936,6 +1200,37 @@ document.querySelectorAll("[data-reveal]").forEach((el) => revealObs.observe(el)
     e.stopPropagation();
     togglePause();
   });
+
+  floatPlay?.addEventListener("click", toggleFloatPlayback);
+  floatMute?.addEventListener("click", () => {
+    if (!floatVideo) return;
+    floatVideo.muted = !floatVideo.muted;
+    updateFloatControls();
+  });
+
+  floatSeek?.addEventListener("input", () => {
+    if (!floatVideo || !Number.isFinite(floatVideo.duration)) return;
+    floatVideo.currentTime = (Number(floatSeek.value) / 1000) * floatVideo.duration;
+    updateFloatControls();
+  });
+
+  floatVideo?.addEventListener("timeupdate", updateFloatControls);
+  floatVideo?.addEventListener("loadedmetadata", updateFloatControls);
+  floatVideo?.addEventListener("canplay", updateFloatControls);
+  floatVideo?.addEventListener("play", () => {
+    setFloatStatus("");
+    updateFloatControls();
+  });
+  floatVideo?.addEventListener("pause", updateFloatControls);
+  floatVideo?.addEventListener("ended", updateFloatControls);
+  floatVideo?.addEventListener("error", handleFloatVideoError);
+  floatVideo?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    toggleFloatPlayback();
+  });
+
+  videoModalClose?.addEventListener("click", closeVideoModal);
+  videoModalScrim?.addEventListener("click", closeVideoModal);
 
   function closePaywall() {
     paywall.hidden = true;
@@ -962,6 +1257,10 @@ document.querySelectorAll("[data-reveal]").forEach((el) => revealObs.observe(el)
 
   document.addEventListener("keydown", (e) => {
     if (e.key !== "Escape") return;
+    if (videoModal && !videoModal.hidden) {
+      closeVideoModal();
+      return;
+    }
     if (paywall && !paywall.hidden) {
       closePaywall();
       return;
