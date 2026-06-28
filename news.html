@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
+<link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin />
+<link rel="preconnect" href="https://hammermag.com" crossorigin />
+<link rel="dns-prefetch" href="https://raw.githubusercontent.com" />
+<title>hammer · news</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body class="normal page-news">
+
+<div class="cursor-dot" id="cursor"></div>
+
+<header class="site-header news-header">
+  <a href="index.html" class="logo"><img src="https://hammermag.com/images/hwt.png" alt="hammer" /></a>
+  <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="siteNav" aria-label="Open menu">
+    <span class="nav-toggle-bar"></span>
+    <span class="nav-toggle-bar"></span>
+    <span class="nav-toggle-bar"></span>
+  </button>
+  <nav class="nav-main" id="siteNav">
+    <a href="index.html">Features</a>
+    <a href="about.html">About</a>
+    <a href="submissions.html">Submissions</a>
+    <a href="hammertv.html">Hammer TV</a>
+    <a href="information.html">Information</a>
+    <a href="office.html">Office</a>
+    <a href="news.html" class="active">News</a>
+  </nav>
+  <div class="header-right">
+    <span class="clock" id="datetime"></span>
+    <button class="mode-btn" id="modeToggle" type="button">Heat</button>
+  </div>
+</header>
+
+<main class="news-main">
+  <header class="news-masthead" data-reveal>
+    <p class="news-dek">Bite-size notes from the margins of fashion, retail, and culture. Click to read.</p>
+  </header>
+
+  <div class="news-accordion" id="newsAccordion">
+    <article class="news-toggle" data-reveal>
+      <button type="button" class="news-toggle-trigger" aria-expanded="false">
+        <span class="news-toggle-leading">
+          <span class="news-toggle-num">01</span>
+          <span class="news-toggle-tag">Runway</span>
+          <span class="news-toggle-time">2h ago</span>
+        </span>
+        <span class="news-toggle-headline">Prada SS26 — linen, rubber, no hierarchy</span>
+        <span class="news-toggle-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="news-toggle-panel">
+        <div class="news-toggle-inner">
+          <p class="news-toggle-lede">Paris men's week opens with folding chairs and concrete.</p>
+          <p class="news-toggle-detail">Prada opened with a procession of washed linens and rubber soles — Miuccia's quiet rebellion against the season's maximalism. Guests sat on folding chairs in a raw concrete hall. No front row hierarchy.</p>
+          <p class="news-toggle-source">Paris · MFW</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="news-toggle" data-reveal>
+      <button type="button" class="news-toggle-trigger" aria-expanded="false">
+        <span class="news-toggle-leading">
+          <span class="news-toggle-num">02</span>
+          <span class="news-toggle-tag">Retail</span>
+          <span class="news-toggle-time">4h ago</span>
+        </span>
+        <span class="news-toggle-headline">Nike pivots back to performance</span>
+        <span class="news-toggle-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="news-toggle-panel">
+        <div class="news-toggle-inner">
+          <p class="news-toggle-lede">16mm athlete footage, no synthetic crowd noise.</p>
+          <p class="news-toggle-detail">Nike shares climbed 6% after the brand announced a return to performance-first storytelling. The new campaign drops athlete footage shot on 16mm — no AI upscaling, no synthetic crowd noise. Analysts call it a pivot away from lifestyle collabs.</p>
+          <p class="news-toggle-source">Nike · NYSE</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="news-toggle" data-reveal>
+      <button type="button" class="news-toggle-trigger" aria-expanded="false">
+        <span class="news-toggle-leading">
+          <span class="news-toggle-num">03</span>
+          <span class="news-toggle-tag">Streetwear</span>
+          <span class="news-toggle-time">6h ago</span>
+        </span>
+        <span class="news-toggle-headline">Stussy archive sale clears $2.1M</span>
+        <span class="news-toggle-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="news-toggle-panel">
+        <div class="news-toggle-inner">
+          <p class="news-toggle-lede">1988 Tribe tee restocked three times in 48 hours.</p>
+          <p class="news-toggle-detail">Stussy's spring archive sale moved $2.1M in 48 hours — mostly international buyers. The 1988 International Stüssy Tribe tee restocked three times. Resellers are already listing at 4× markup on Grailed.</p>
+          <p class="news-toggle-source">Stussy · Archive</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="news-toggle" data-reveal>
+      <button type="button" class="news-toggle-trigger" aria-expanded="false">
+        <span class="news-toggle-leading">
+          <span class="news-toggle-num">04</span>
+          <span class="news-toggle-tag">Fashion Week</span>
+          <span class="news-toggle-time">8h ago</span>
+        </span>
+        <span class="news-toggle-headline">Gucci builds collection from deadstock</span>
+        <span class="news-toggle-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="news-toggle-panel">
+        <div class="news-toggle-inner">
+          <p class="news-toggle-lede">Afterparty in a disused Milan tram depot.</p>
+          <p class="news-toggle-detail">Gucci's Sabato De Sarno showed a collection built entirely from deadstock jacquard. The afterparty was held in a disused tram depot. Anna Wintour left early — reportedly to catch a flight to Copenhagen for Ganni's pre-collection preview.</p>
+          <p class="news-toggle-source">Milan · MFW</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="news-toggle" data-reveal>
+      <button type="button" class="news-toggle-trigger" aria-expanded="false">
+        <span class="news-toggle-leading">
+          <span class="news-toggle-num">05</span>
+          <span class="news-toggle-tag">Collaboration</span>
+          <span class="news-toggle-time">11h ago</span>
+        </span>
+        <span class="news-toggle-headline">Supreme × MM6 tabi boots leak</span>
+        <span class="news-toggle-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="news-toggle-panel">
+        <div class="news-toggle-inner">
+          <p class="news-toggle-lede">Box logo stitched inside the tongue — invisible until worn.</p>
+          <p class="news-toggle-detail">Supreme × MM6 Maison Margiela drops Thursday. The leak shows deconstructed tabi boots with Supreme box logo stitching inside the tongue — invisible until worn. Stock expected to sell out in under 90 seconds.</p>
+          <p class="news-toggle-source">Supreme · MM6</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="news-toggle" data-reveal>
+      <button type="button" class="news-toggle-trigger" aria-expanded="false">
+        <span class="news-toggle-leading">
+          <span class="news-toggle-num">06</span>
+          <span class="news-toggle-tag">Industry</span>
+          <span class="news-toggle-time">14h ago</span>
+        </span>
+        <span class="news-toggle-headline">LVMH: Asia streetwear graduates to maison</span>
+        <span class="news-toggle-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="news-toggle-panel">
+        <div class="news-toggle-inner">
+          <p class="news-toggle-lede">Japan and Korea offset China softness in Q2 earnings.</p>
+          <p class="news-toggle-detail">LVMH reported soft luxury demand in China but strong growth in Japan and Korea. Bernard Arnault cited 'younger Asian consumers trading up from streetwear into maison labels' as the quarter's surprise driver.</p>
+          <p class="news-toggle-source">LVMH · Earnings</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="news-toggle" data-reveal>
+      <button type="button" class="news-toggle-trigger" aria-expanded="false">
+        <span class="news-toggle-leading">
+          <span class="news-toggle-num">07</span>
+          <span class="news-toggle-tag">Runway</span>
+          <span class="news-toggle-time">18h ago</span>
+        </span>
+        <span class="news-toggle-headline">Ganni debuts algae sequins</span>
+        <span class="news-toggle-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="news-toggle-panel">
+        <div class="news-toggle-inner">
+          <p class="news-toggle-lede">94% traceable. Styled with vintage Danish military surplus.</p>
+          <p class="news-toggle-detail">Ganni's pre-collection featured biodegradable sequins made from algae cellulose. Every look was styled with vintage Danish military surplus. The brand claims 94% of the collection is traceable to source.</p>
+          <p class="news-toggle-source">Copenhagen · CFW</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="news-toggle" data-reveal>
+      <button type="button" class="news-toggle-trigger" aria-expanded="false">
+        <span class="news-toggle-leading">
+          <span class="news-toggle-num">08</span>
+          <span class="news-toggle-tag">Retail</span>
+          <span class="news-toggle-time">1d ago</span>
+        </span>
+        <span class="news-toggle-headline">DSM London closes basement for rebuild</span>
+        <span class="news-toggle-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="news-toggle-panel">
+        <div class="news-toggle-inner">
+          <p class="news-toggle-lede">CdG takes full ground floor. Pop-up on Lexington next month.</p>
+          <p class="news-toggle-detail">DSM London is closing its basement level for a six-month renovation. Comme des Garçons will occupy the entire ground floor during the rebuild. A temporary pop-up opens on Lexington Street next month.</p>
+          <p class="news-toggle-source">Dover Street Market · London</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="news-toggle" data-reveal>
+      <button type="button" class="news-toggle-trigger" aria-expanded="false">
+        <span class="news-toggle-leading">
+          <span class="news-toggle-num">09</span>
+          <span class="news-toggle-tag">Culture</span>
+          <span class="news-toggle-time">1d ago</span>
+        </span>
+        <span class="news-toggle-headline">BEAMS archive store opens in Shibuya</span>
+        <span class="news-toggle-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="news-toggle-panel">
+        <div class="news-toggle-inner">
+          <p class="news-toggle-lede">Pre-1995 Americana only. Queue stretched two blocks.</p>
+          <p class="news-toggle-detail">BEAMS opened a concept store dedicated to archive Americana — only items produced before 1995. The launch queue stretched two blocks. Inside: deadstock Levi's, vintage Patagonia, and a listening booth playing Japanese city pop on cassette.</p>
+          <p class="news-toggle-source">Tokyo · Shibuya</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="news-toggle" data-reveal>
+      <button type="button" class="news-toggle-trigger" aria-expanded="false">
+        <span class="news-toggle-leading">
+          <span class="news-toggle-num">10</span>
+          <span class="news-toggle-tag">Footwear</span>
+          <span class="news-toggle-time">1d ago</span>
+        </span>
+        <span class="news-toggle-headline">990v7 grey sells out in 11 minutes</span>
+        <span class="news-toggle-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="news-toggle-panel">
+        <div class="news-toggle-inner">
+          <p class="news-toggle-lede">Unchanged colorway since 1982. StockX prices climbing.</p>
+          <p class="news-toggle-detail">New Balance 990v7 restock sold out globally in 11 minutes. The grey colorway — unchanged since 1982 — remains the brand's most requested silhouette. Resale prices already climbing on StockX.</p>
+          <p class="news-toggle-source">New Balance · Boston</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="news-toggle" data-reveal>
+      <button type="button" class="news-toggle-trigger" aria-expanded="false">
+        <span class="news-toggle-leading">
+          <span class="news-toggle-num">11</span>
+          <span class="news-toggle-tag">Fashion Week</span>
+          <span class="news-toggle-time">2d ago</span>
+        </span>
+        <span class="news-toggle-headline">Pitti Uomo 106 — agbada as tailoring</span>
+        <span class="news-toggle-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="news-toggle-panel">
+        <div class="news-toggle-inner">
+          <p class="news-toggle-lede">Nigerian label draws orders from Seoul and Tokyo buyers.</p>
+          <p class="news-toggle-detail">Pitti Uomo 106 drew record attendance from Asian buyers. The standout moment: a Nigerian label showing hand-woven agbada reinterpreted as oversized tailoring. Buyers from Seoul and Tokyo placed orders on the spot.</p>
+          <p class="news-toggle-source">Florence · Pitti Uomo</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="news-toggle" data-reveal>
+      <button type="button" class="news-toggle-trigger" aria-expanded="false">
+        <span class="news-toggle-leading">
+          <span class="news-toggle-num">12</span>
+          <span class="news-toggle-tag">Streetwear</span>
+          <span class="news-toggle-time">2d ago</span>
+        </span>
+        <span class="news-toggle-headline">Palace × Umbro — 1994 World Cup polyester</span>
+        <span class="news-toggle-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="news-toggle-panel">
+        <div class="news-toggle-inner">
+          <p class="news-toggle-lede">Tri-ferg on inside collar only. Kits reissued from deadstock.</p>
+          <p class="news-toggle-detail">Palace's summer drop features a collaboration with Umbro — football kits reissued in deadstock polyester from the 1994 World Cup. The tri-ferg logo appears on the inside collar only.</p>
+          <p class="news-toggle-source">Palace · London</p>
+        </div>
+      </div>
+    </article>
+  </div>
+
+</main>
+
+<div class="bottom-banner-sentinel" aria-hidden="true"></div>
+
+<div class="marquee-wrap news-banner">
+  <p class="news-banner-text">© 2026 hammer mag</p>
+</div>
+
+<script defer src="app.js"></script>
+</body>
+</html>

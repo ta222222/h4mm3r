@@ -107,9 +107,9 @@ modeToggle?.addEventListener("click", () => {
   const MONTAGE_LOGO_MS = 450;
   const MONTAGE_LOGO_BLINK_ON_MS = 90;
   const FLASH_BLINK_CYCLES = 2;
-  const FLASH_BLINK_ON_MS = 300;
-  const FLASH_BLINK_OFF_MS = 300;
-  const FLASH_FINAL_HOLD_MS = 450;
+  const FLASH_BLINK_ON_MS = 150;
+  const FLASH_BLINK_OFF_MS = 150;
+  const FLASH_FINAL_HOLD_MS = 220;
   const HERMES_FLASH_URL =
     "https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/hermes-bag.jpeg";
 
@@ -1273,4 +1273,157 @@ document.querySelectorAll("[data-reveal]").forEach((el) => revealObs.observe(el)
     { threshold: 0.12 }
   );
   playerObs.observe(player);
+})();
+
+(function initNewsAccordion() {
+  const accordion = document.getElementById("newsAccordion");
+  if (!accordion) return;
+
+  const triggers = accordion.querySelectorAll(".news-toggle-trigger");
+
+  function closeToggle(trigger) {
+    const toggle = trigger.closest(".news-toggle");
+    const panel = trigger.nextElementSibling;
+    if (!toggle || !panel) return;
+    trigger.setAttribute("aria-expanded", "false");
+    toggle.classList.remove("is-open");
+    panel.style.maxHeight = "0px";
+  }
+
+  triggers.forEach((trigger) => {
+    const toggle = trigger.closest(".news-toggle");
+    const panel = trigger.nextElementSibling;
+    if (!toggle || !panel) return;
+
+    trigger.addEventListener("click", () => {
+      const isOpen = trigger.getAttribute("aria-expanded") === "true";
+
+      if (!isOpen) {
+        triggers.forEach((other) => {
+          if (other !== trigger && other.getAttribute("aria-expanded") === "true") {
+            closeToggle(other);
+          }
+        });
+      }
+
+      trigger.setAttribute("aria-expanded", String(!isOpen));
+      toggle.classList.toggle("is-open", !isOpen);
+      panel.style.maxHeight = isOpen ? "0px" : `${panel.scrollHeight}px`;
+    });
+  });
+})();
+
+(function initOfficeModals() {
+  const grid = document.getElementById("officeGrid");
+  const card = document.getElementById("officeHoverCard");
+  if (!grid || !card) return;
+
+  const tagEl = document.getElementById("officeHoverTag");
+  const timeEl = document.getElementById("officeHoverTime");
+  const headlineEl = document.getElementById("officeHoverHeadline");
+  const detailEl = document.getElementById("officeHoverDetail");
+  const sourceEl = document.getElementById("officeHoverSource");
+  const items = grid.querySelectorAll(".office-item");
+  const isCoarse = window.matchMedia("(pointer: coarse)").matches;
+  let activeItem = null;
+  let raf = 0;
+
+  function populate(item) {
+    tagEl.textContent = item.dataset.tag || "";
+    timeEl.textContent = item.dataset.time || "";
+    headlineEl.textContent = item.querySelector(".office-item-headline")?.textContent || "";
+    detailEl.textContent = item.dataset.detail || "";
+    sourceEl.textContent = item.dataset.source || "";
+  }
+
+  function positionCard(x, y) {
+    const pad = 16;
+    const rect = card.getBoundingClientRect();
+    let left = x + 18;
+    let top = y - 12;
+
+    if (left + rect.width > window.innerWidth - pad) {
+      left = x - rect.width - 18;
+    }
+    if (top + rect.height > window.innerHeight - pad) {
+      top = window.innerHeight - rect.height - pad;
+    }
+    if (top < pad) top = pad;
+    if (left < pad) left = pad;
+
+    card.style.left = left + "px";
+    card.style.top = top + "px";
+  }
+
+  function show(item, x, y) {
+    populate(item);
+    card.hidden = false;
+    card.setAttribute("aria-hidden", "false");
+    requestAnimationFrame(() => {
+      positionCard(x, y);
+      card.classList.add("is-visible");
+    });
+  }
+
+  function hide() {
+    card.classList.remove("is-visible");
+    card.setAttribute("aria-hidden", "true");
+    window.setTimeout(() => {
+      if (!card.classList.contains("is-visible")) card.hidden = true;
+    }, 200);
+    activeItem?.classList.remove("is-active");
+    activeItem = null;
+  }
+
+  items.forEach((item) => {
+    item.addEventListener("mouseenter", (e) => {
+      if (isCoarse) return;
+      activeItem?.classList.remove("is-active");
+      activeItem = item;
+      item.classList.add("is-active");
+      show(item, e.clientX, e.clientY);
+    });
+
+    item.addEventListener("mousemove", (e) => {
+      if (isCoarse || !activeItem) return;
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => positionCard(e.clientX, e.clientY));
+    });
+
+    item.addEventListener("mouseleave", () => {
+      if (isCoarse) return;
+      hide();
+    });
+
+    item.addEventListener("click", (e) => {
+      if (!isCoarse) return;
+      e.preventDefault();
+      if (activeItem === item) {
+        hide();
+        return;
+      }
+      activeItem?.classList.remove("is-active");
+      activeItem = item;
+      item.classList.add("is-active");
+      show(item, window.innerWidth / 2, window.innerHeight / 2);
+    });
+
+    item.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        if (activeItem === item) hide();
+        else {
+          activeItem?.classList.remove("is-active");
+          activeItem = item;
+          item.classList.add("is-active");
+          show(item, window.innerWidth / 2, window.innerHeight / 2);
+        }
+      }
+      if (e.key === "Escape") hide();
+    });
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && activeItem) hide();
+  });
 })();
