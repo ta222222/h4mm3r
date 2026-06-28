@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
+<link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin />
+<link rel="preconnect" href="https://hammermag.com" crossorigin />
+<link rel="dns-prefetch" href="https://raw.githubusercontent.com" />
+<title>hammer · features</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body class="normal page-features">
+<script>
+(function () {
+  try {
+    if (sessionStorage.getItem("hammer_reel") === "1") return;
+  } catch (e) {}
+  var nav = performance.getEntriesByType("navigation")[0];
+  var type = nav && nav.type;
+  var internal = false;
+  try {
+    internal = document.referrer && new URL(document.referrer).origin === location.origin;
+  } catch (e) {}
+  if (type === "reload" || (type === "navigate" && !internal)) return;
+  document.body.classList.add("nav-logo-visible");
+})();
+</script>
+
+<div class="intro-splash" id="introSplash">
+  <div class="intro-carousel">
+    <img id="introSlide" class="intro-slide is-front" src="https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/RIMG0457.webp" alt="" decoding="async" fetchpriority="high" />
+  </div>
+  <img class="intro-logo" src="https://hammermag.com/images/hwt.png" alt="" />
+</div>
+
+<div class="design-grid" id="designGrid" hidden aria-hidden="true">
+  <div class="design-grid-lines" id="designGridLines"></div>
+  <span class="design-grid-tag" id="designGridTag"></span>
+</div>
+
+<div class="cursor-dot" id="cursor"></div>
+
+<header class="site-header">
+  <a href="index.html" class="logo"><img src="https://hammermag.com/images/hwt.png" alt="hammer" /></a>
+  <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="siteNav" aria-label="Open menu">
+    <span class="nav-toggle-bar"></span>
+    <span class="nav-toggle-bar"></span>
+    <span class="nav-toggle-bar"></span>
+  </button>
+  <nav class="nav-main" id="siteNav">
+    <a href="index.html" class="active">Features</a>
+    <a href="submissions.html">Submissions</a>
+    <a href="hammertv.html">Hammer TV</a>
+    <a href="about.html">About</a>
+  </nav>
+  <div class="header-right">
+    <span class="clock" id="datetime"></span>
+    <div class="grid-control" id="gridControl">
+      <button class="mode-btn grid-btn" id="gridToggle" type="button" aria-expanded="false" aria-controls="gridPicker">Grid</button>
+      <div class="grid-picker" id="gridPicker" hidden>
+        <button type="button" class="grid-picker-btn" data-cols="3">3</button>
+        <button type="button" class="grid-picker-btn" data-cols="4">4</button>
+        <button type="button" class="grid-picker-btn" data-cols="5">5</button>
+        <button type="button" class="grid-picker-btn" data-cols="6">6</button>
+        <button type="button" class="grid-picker-btn" data-cols="7">7</button>
+        <button type="button" class="grid-picker-btn" data-cols="8">8</button>
+        <button type="button" class="grid-picker-btn grid-picker-off" data-cols="0">Off</button>
+      </div>
+    </div>
+    <button class="mode-btn" id="modeToggle" type="button">Heat</button>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="hero">
+    <div class="hero-img-wrap">
+      <img src="https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/hammer%20preview%20launch%20red.webp" alt="" class="hero-img" decoding="async" fetchpriority="high" />
+    </div>
+    <div class="hero-overlay"></div>
+    <span class="scroll-hint">↓ scroll</span>
+  </section>
+
+  <section class="section section-wide" id="featuresSection">
+    <div class="section-head">
+      <p class="section-label">In this issue</p>
+      <button type="button" class="view-toggle" id="viewToggle" aria-pressed="false">List view</button>
+    </div>
+
+    <article class="editorial-lead editorial-item" data-reveal>
+      <a href="feature/example3.html" class="img-magnetic" data-magnetic>
+        <img src="https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/RIMG1578.webp" alt="" />
+        <span class="img-tag">Read →</span>
+      </a>
+      <h2 class="item-title">from hackney to hollywood... but still haven't been to japan</h2>
+      <p class="item-dek">DJs on pool decks and pirate radio back home — the same season played twice, never at the same volume.</p>
+    </article>
+
+    <div class="editorial-grid" id="featuresGrid" aria-hidden="false">
+      <article class="editorial-item" data-reveal>
+        <a href="feature/example2.html" class="img-magnetic" data-magnetic>
+          <img src="https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/RIMG1176.webp" alt="" />
+          <span class="img-tag">Read →</span>
+        </a>
+        <p class="item-writer">Cleo Park</p>
+        <h2 class="item-title">Someone Else's Summer</h2>
+        <p class="item-dek">Rooftops, borrowed speakers, and the playlists you inherit from nights you barely made.</p>
+      </article>
+      <article class="editorial-item full" data-reveal>
+        <a href="feature/example1.html" class="img-magnetic" data-magnetic>
+          <img src="https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/RIMG0230.webp" alt="" />
+          <span class="img-tag">Read →</span>
+        </a>
+        <p class="item-writer">hammer staff</p>
+        <h2 class="item-title">The Repost Economy</h2>
+        <p class="item-dek">Illicit fifth-generation bastards of original images — repost culture and the aesthetics of degradation.</p>
+      </article>
+      <article class="editorial-item" data-reveal>
+        <a href="feature/summer-pop.html" class="img-magnetic" data-magnetic>
+          <img src="https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/DSCN4925.webp" alt="" />
+          <span class="img-tag">Read →</span>
+        </a>
+        <p class="item-writer">Nova Delcourt</p>
+        <h2 class="item-title">Summer Pop</h2>
+        <p class="item-dek">Britney, Glass, pool decks — procession music for the season that never ends.</p>
+      </article>
+      <article class="editorial-item" data-reveal>
+        <a href="feature/patron-of-runways.html" class="img-magnetic" data-magnetic>
+          <img src="https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/mickeyvintage.webp" alt="" />
+          <span class="img-tag">Read →</span>
+        </a>
+        <p class="item-writer">Issue 03 · Coming Soon</p>
+        <h2 class="item-title">Patron Of Runaways</h2>
+        <p class="item-dek">The saint of mental health, runaways, and unknowable causes.</p>
+      </article>
+    </div>
+
+    <ol class="features-list" id="featuresList" aria-hidden="true">
+      <li>
+        <a href="feature/example3.html" class="features-list-row">
+          <span class="features-list-num">01</span>
+          <span class="features-list-main">
+            <span class="features-list-title">from hackney to hollywood... but still haven't been to japan</span>
+            <span class="features-list-writer">Guest Writer</span>
+          </span>
+          <span class="features-list-meta">18 min · Lead</span>
+        </a>
+      </li>
+      <li>
+        <a href="feature/example2.html" class="features-list-row">
+          <span class="features-list-num">02</span>
+          <span class="features-list-main">
+            <span class="features-list-title">Someone Else's Summer</span>
+            <span class="features-list-writer">Cleo Park</span>
+          </span>
+          <span class="features-list-meta">9 min</span>
+        </a>
+      </li>
+      <li>
+        <a href="feature/example1.html" class="features-list-row">
+          <span class="features-list-num">03</span>
+          <span class="features-list-main">
+            <span class="features-list-title">The Repost Economy</span>
+            <span class="features-list-writer">hammer staff</span>
+          </span>
+          <span class="features-list-meta">14 min · Guest</span>
+        </a>
+      </li>
+      <li>
+        <a href="feature/summer-pop.html" class="features-list-row">
+          <span class="features-list-num">04</span>
+          <span class="features-list-main">
+            <span class="features-list-title">Summer Pop</span>
+            <span class="features-list-writer">Nova Delcourt</span>
+          </span>
+          <span class="features-list-meta">6 min · Guest stylist</span>
+        </a>
+      </li>
+      <li>
+        <a href="feature/patron-of-runways.html" class="features-list-row">
+          <span class="features-list-num">05</span>
+          <span class="features-list-main">
+            <span class="features-list-title">Patron Of Runaways</span>
+            <span class="features-list-writer">Issue 03 · Goth journalist</span>
+          </span>
+          <span class="features-list-meta">Coming soon</span>
+        </a>
+      </li>
+    </ol>
+    <script>
+    (function () {
+      try {
+        if (localStorage.getItem("hammer_features_view") !== "list") return;
+      } catch (e) { return; }
+      var section = document.getElementById("featuresSection");
+      var grid = document.getElementById("featuresGrid");
+      var list = document.getElementById("featuresList");
+      var toggle = document.getElementById("viewToggle");
+      if (!section) return;
+      section.classList.add("list-mode");
+      section.dataset.viewInit = "list";
+      if (grid) {
+        grid.setAttribute("aria-hidden", "true");
+        if ("inert" in grid) grid.inert = true;
+      }
+      if (list) {
+        list.setAttribute("aria-hidden", "false");
+        if ("inert" in list) list.inert = false;
+      }
+      if (toggle) {
+        toggle.textContent = "Grid view";
+        toggle.setAttribute("aria-pressed", "true");
+      }
+    })();
+    </script>
+  </section>
+
+  <section class="pull" data-reveal>
+    <blockquote>"The poor image mocks the promises of digital technology."</blockquote>
+    <cite>— Hito Steyerl, 2009</cite>
+  </section>
+
+  <div class="img-strip" id="imgStrip">
+    <figure class="img-strip-frame"><img src="https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/RIMG0299.webp" alt="" /></figure>
+    <figure class="img-strip-frame"><img src="https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/RIMG1176.webp" alt="" /></figure>
+    <figure class="img-strip-frame"><img src="https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/RIMG0363.webp" alt="" /></figure>
+    <figure class="img-strip-frame"><img src="https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/RIMG1116.webp" alt="" /></figure>
+  </div>
+
+  <footer class="site-foot">
+    <span>© 2026 hammer</span>
+    <span class="blink-star">★</span>
+  </footer>
+</main>
+
+<div class="marquee-wrap">
+  <div class="marquee-track" id="marquee">
+    <span>issue 02 · la summer · london nights · djs · hackney · hollywood ·</span>
+    <span>issue 02 · la summer · london nights · djs · hackney · hollywood ·</span>
+  </div>
+</div>
+
+<script defer src="app.js"></script>
+</body>
+</html>

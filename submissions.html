@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
+<link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin />
+<link rel="preconnect" href="https://hammermag.com" crossorigin />
+<link rel="dns-prefetch" href="https://raw.githubusercontent.com" />
+<title>hammer · submissions</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body class="normal page-submissions">
+
+<div class="cursor-dot" id="cursor"></div>
+
+<header class="site-header">
+  <a href="index.html" class="logo"><img src="https://hammermag.com/images/hwt.png" alt="hammer" /></a>
+  <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="siteNav" aria-label="Open menu">
+    <span class="nav-toggle-bar"></span>
+    <span class="nav-toggle-bar"></span>
+    <span class="nav-toggle-bar"></span>
+  </button>
+  <nav class="nav-main" id="siteNav">
+    <a href="index.html">Features</a>
+    <a href="submissions.html" class="active">Submissions</a>
+    <a href="hammertv.html">Hammer TV</a>
+    <a href="about.html">About</a>
+  </nav>
+  <div class="header-right">
+    <span class="clock" id="datetime"></span>
+    <button class="mode-btn" id="modeToggle" type="button">Heat</button>
+  </div>
+</header>
+
+<main class="page-submissions">
+
+  <div class="submissions-layout">
+    <div class="submissions-pitch">
+      <ul class="guidelines">
+        <li>150-word summary with a working title. Tell us why now, and why you.</li>
+        <li>Attach reference images or links from your research if relevant.</li>
+        <li>Simultaneous submissions are fine — just say where else it's out.</li>
+      </ul>
+
+      <form class="form-block" action="#" onsubmit="return false;">
+        <label for="name">Name</label>
+        <input id="name" type="text" placeholder="Your name" />
+
+        <label for="email">Email</label>
+        <input id="email" type="email" placeholder="you@email.com" />
+
+        <label for="title">Working title</label>
+        <input id="title" type="text" placeholder="Working title" />
+
+        <label for="pitch">Pitch</label>
+        <textarea id="pitch" placeholder="What is the piece?"></textarea>
+
+        <button class="submit-btn" type="submit">Send pitch →</button>
+        <p class="submissions-note">We publish criticism, personal essays, and features at the intersection of art, culture, and feeling. Send a pitch — not a finished draft unless invited.</p>
+      </form>
+    </div>
+
+    <figure class="submissions-photo">
+      <img src="https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/josh%20gordon%20hammer.webp" alt="" loading="lazy" decoding="async" />
+    </figure>
+  </div>
+
+  <div class="img-strip" id="imgStrip">
+    <figure class="img-strip-frame"><img src="https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/RIMG0945.webp" alt="" /></figure>
+    <figure class="img-strip-frame"><img src="https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/RIMG1024.webp" alt="" /></figure>
+    <figure class="img-strip-frame"><img src="https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/RIMG0152.webp" alt="" /></figure>
+    <figure class="img-strip-frame"><img src="https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/RIMG0758.webp" alt="" /></figure>
+  </div>
+
+  <footer class="site-foot">
+    <span>© 2026 hammer</span>
+    <span class="blink-star">★</span>
+  </footer>
+</main>
+
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span>open call · pitches welcome · criticism · essays · reviews · send us your canon ·</span>
+    <span>open call · pitches welcome · criticism · essays · reviews · send us your canon ·</span>
+  </div>
+</div>
+
+<script defer src="app.js"></script>
+</body>
+</html>

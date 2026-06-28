@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
+<link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin />
+<link rel="preconnect" href="https://hammermag.com" crossorigin />
+<link rel="dns-prefetch" href="https://raw.githubusercontent.com" />
+<title>hammer · hammer tv</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body class="normal">
+
+
+<div class="cursor-dot" id="cursor"></div>
+
+<header class="site-header">
+  <a href="index.html" class="logo"><img src="https://hammermag.com/images/hwt.png" alt="hammer" /></a>
+  <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="siteNav" aria-label="Open menu">
+    <span class="nav-toggle-bar"></span>
+    <span class="nav-toggle-bar"></span>
+    <span class="nav-toggle-bar"></span>
+  </button>
+  <nav class="nav-main" id="siteNav">
+    <a href="index.html">Features</a>
+    <a href="submissions.html">Submissions</a>
+    <a href="hammertv.html" class="active">Hammer TV</a>
+    <a href="about.html">About</a>
+  </nav>
+  <div class="header-right">
+    <span class="clock" id="datetime"></span>
+    <button class="mode-btn" id="modeToggle" type="button">Heat</button>
+  </div>
+</header>
+
+<main class="tv-main">
+  <section class="tv-hero">
+    <div class="tv-player-wrap" id="tvPlayerWrap" data-reveal>
+      <div class="tv-player" id="tvPlayer" role="button" tabindex="0"
+           data-title="Issue 02 — Preview Film"
+           data-dek="Editorial preview of the summer issue. Features, contributors, research board walkthrough. Full version for subscribers."
+           data-duration="24:00"
+           data-img="https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/RIMG0749.webp"
+           data-locked="false">
+        <img class="tv-player-poster" id="tvPlayerPoster" src="https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/RIMG0749.webp" alt="" decoding="async" fetchpriority="high" />
+        <div class="tv-player-overlay" id="tvPlayerOverlay">
+          <span class="tv-play">▶</span>
+          <span class="tv-player-label" id="tvPlayerLabel">Preview · 0:45</span>
+        </div>
+        <div class="tv-player-controls" id="tvPlayerControls" hidden>
+          <button type="button" class="tv-pause" id="tvPause" aria-label="Pause">❚❚</button>
+          <div class="tv-progress-bar"><span class="tv-progress-fill" id="tvProgressFill"></span></div>
+          <span class="tv-time" id="tvTime">0:00 / 24:00</span>
+        </div>
+        <span class="tv-badge tv-badge-premium" id="tvPlayerBadge">Members</span>
+      </div>
+      <div class="tv-now-playing">
+        <h2 class="tv-now-title" id="tvNowTitle">Issue 02 — Preview Film</h2>
+        <p class="tv-now-dek" id="tvNowDek">Editorial preview of the summer issue. Features, contributors, research board walkthrough. Full version for subscribers.</p>
+        <div class="tv-now-meta" id="tvNowMeta">
+          <span id="tvNowDuration">24 min</span>
+          <span>·</span>
+          <span>Issue 02</span>
+          <span>·</span>
+          <span>4K</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tv-section" data-reveal>
+    <div class="tv-section-head">
+      <h2 class="tv-section-title">Continue Watching</h2>
+    </div>
+    <div class="tv-row">
+      <button type="button" class="tv-card"
+        data-title="LA Summer vs London"
+        data-dek="Film essay on DJs, pool-deck sets, and the gap between a London night and a Los Angeles summer."
+        data-duration="12:04"
+        data-img="https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/DSCN4523.webp">
+        <div class="tv-thumb">
+          <img src="https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/DSCN4523.webp" alt="" />
+          <span class="tv-thumb-play">▶</span>
+          <span class="tv-thumb-time">12:04</span>
+          <span class="tv-progress" style="width:62%"></span>
+        </div>
+        <p class="tv-card-title">LA Summer vs London</p>
+        <p class="tv-card-sub">Film essay · DJs · 62% watched</p>
+      </button>
+      <button type="button" class="tv-card"
+        data-title="The Repost Economy"
+        data-dek="hammer staff on poor images, compression, and the aesthetics of degradation online."
+        data-duration="08:30"
+        data-img="https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/RIMG1024.webp">
+        <div class="tv-thumb">
+          <img src="https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/RIMG1024.webp" alt="" />
+          <span class="tv-thumb-play">▶</span>
+          <span class="tv-thumb-time">08:30</span>
+          <span class="tv-progress" style="width:28%"></span>
+        </div>
+        <p class="tv-card-title">The Repost Economy</p>
+        <p class="tv-card-sub">Talk · 28% watched</p>
+      </button>
+      <button type="button" class="tv-card tv-card-locked"
+        data-title="Studio Visit — Cleo Park"
+        data-dek="Inside the studio. Members only."
+        data-duration="18:00"
+        data-img="https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/RIMG0512.webp"
+        data-locked="true">
+        <div class="tv-thumb">
+          <img src="https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/RIMG0512.webp" alt="" />
+          <span class="tv-thumb-lock">🔒</span>
+          <span class="tv-thumb-time">18:00</span>
+        </div>
+        <p class="tv-card-title">Studio Visit — Cleo Park</p>
+        <p class="tv-card-sub">Members only</p>
+      </button>
+    </div>
+  </section>
+
+  <section class="tv-section" data-reveal>
+    <div class="tv-section-head">
+      <h2 class="tv-section-title">New Releases</h2>
+      <span class="tv-section-count">6 titles</span>
+    </div>
+    <div class="tv-grid">
+      <button type="button" class="tv-card"
+        data-title="Hammer Reads — Issue 02"
+        data-dek="Audio/visual reading of the summer issue. Free preview."
+        data-duration="06:12"
+        data-img="https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/RIMG0172.webp">
+        <div class="tv-thumb tv-thumb-wide">
+          <img src="https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/RIMG0172.webp" alt="" />
+          <span class="tv-thumb-play">▶</span>
+          <span class="tv-badge tv-badge-new">New</span>
+          <span class="tv-thumb-time">06:12</span>
+        </div>
+        <p class="tv-card-title">Hammer Reads — Issue 02</p>
+        <p class="tv-card-sub">Audio/visual · Free preview</p>
+      </button>
+      <button type="button" class="tv-card tv-card-locked"
+        data-title="Research Board — Live"
+        data-dek="Live walkthrough of the shared research board. Members only."
+        data-duration="32:00"
+        data-img="https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/RIMG0227.webp"
+        data-locked="true">
+        <div class="tv-thumb tv-thumb-wide">
+          <img src="https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/RIMG0227.webp" alt="" />
+          <span class="tv-thumb-lock">🔒</span>
+          <span class="tv-thumb-time">32:00</span>
+        </div>
+        <p class="tv-card-title">Research Board — Live</p>
+        <p class="tv-card-sub">Members only</p>
+      </button>
+      <button type="button" class="tv-card tv-card-locked"
+        data-title="Pasadena — Field Notes"
+        data-dek="Documentary field notes from Pasadena. Members only."
+        data-duration="14:22"
+        data-img="https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/DSCN1671.webp"
+        data-locked="true">
+        <div class="tv-thumb tv-thumb-wide">
+          <img src="https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/DSCN1671.webp" alt="" />
+          <span class="tv-thumb-lock">🔒</span>
+          <span class="tv-thumb-time">14:22</span>
+        </div>
+        <p class="tv-card-title">Pasadena — Field Notes</p>
+        <p class="tv-card-sub">Documentary · Members</p>
+      </button>
+      <button type="button" class="tv-card"
+        data-title="Poor Image — Panel"
+        data-dek="Recorded panel on poor images and repost culture. Preview available."
+        data-duration="09:48"
+        data-img="https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/RIMG0772.webp">
+        <div class="tv-thumb tv-thumb-wide">
+          <img src="https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/RIMG0772.webp" alt="" />
+          <span class="tv-thumb-play">▶</span>
+          <span class="tv-thumb-time">09:48</span>
+        </div>
+        <p class="tv-card-title">Poor Image — Panel</p>
+        <p class="tv-card-sub">Recorded talk · Preview</p>
+      </button>
+      <button type="button" class="tv-card tv-card-locked"
+        data-title="Summer Pop — Listening Session"
+        data-dek="Listening session — Britney, Glass, pool-deck deep cuts. Members only."
+        data-duration="21:05"
+        data-img="https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/DSCN4207.webp"
+        data-locked="true">
+        <div class="tv-thumb tv-thumb-wide">
+          <img src="https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/DSCN4207.webp" alt="" />
+          <span class="tv-thumb-lock">🔒</span>
+          <span class="tv-thumb-time">21:05</span>
+        </div>
+        <p class="tv-card-title">Summer Pop — Listening Session</p>
+        <p class="tv-card-sub">Members only</p>
+      </button>
+      <button type="button" class="tv-card tv-card-locked"
+        data-title="Contributor Interview — River Castañeda"
+        data-dek="In conversation with River Castañeda. Members only."
+        data-duration="11:33"
+        data-img="https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/RIMG0708.webp"
+        data-locked="true">
+        <div class="tv-thumb tv-thumb-wide">
+          <img src="https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/RIMG0708.webp" alt="" />
+          <span class="tv-thumb-lock">🔒</span>
+          <span class="tv-thumb-time">11:33</span>
+        </div>
+        <p class="tv-card-title">Contributor Interview — River Castañeda</p>
+        <p class="tv-card-sub">Members only</p>
+      </button>
+    </div>
+  </section>
+
+  <section class="tv-subscribe-foot" data-reveal aria-label="Subscribe to Hammer TV">
+    <p class="tv-subscribe-slogan">You don't want to miss out on the best TV network online</p>
+    <button class="tv-subscribe-btn" type="button">Subscribe · $8 / mo</button>
+  </section>
+
+  <footer class="site-foot">
+    <span>© 2026 hammer · Hammer TV</span>
+    <span class="blink-star">★</span>
+  </footer>
+
+  <div class="bottom-banner-sentinel" aria-hidden="true"></div>
+</main>
+
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span>hammer tv · members · watch · subscribe · issue 02 · premium · coming soon ·</span>
+    <span>hammer tv · members · watch · subscribe · issue 02 · premium · coming soon ·</span>
+  </div>
+</div>
+
+<div class="tv-paywall" id="tvPaywall" hidden>
+  <div class="tv-paywall-inner">
+    <button type="button" class="tv-paywall-close" id="tvPaywallClose" aria-label="Close">×</button>
+    <p class="tv-paywall-kicker">Members only</p>
+    <h2 class="tv-paywall-title" id="tvPaywallTitle">Studio Visit — Cleo Park</h2>
+    <p class="tv-paywall-dek">Subscribe to Hammer TV to watch the full library — films, talks, studio visits, and live sessions.</p>
+    <button type="button" class="tv-subscribe-btn" id="tvPaywallSubscribe">Subscribe · $8 / mo</button>
+  </div>
+</div>
+
+<script defer src="app.js"></script>
+</body>
+</html>
