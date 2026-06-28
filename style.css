@@ -869,7 +869,7 @@ main { padding-top: 0; }
     height: 100dvh;
     width: 100%;
     overflow: hidden;
-    background: #0a0a0a;
+    background: var(--bg);
   }
 
   body.page-features .hero-img-wrap {
@@ -894,29 +894,37 @@ main { padding-top: 0; }
   }
 
   body.page-features .hero-overlay {
-    background: linear-gradient(
-      to top,
-      rgba(0, 0, 0, 0.35) 0%,
-      rgba(0, 0, 0, 0.08) 28%,
-      transparent 55%
-    );
+    background: linear-gradient(to top, var(--bg) 0%, transparent 55%);
   }
 
-  body.page-features.heated .hero-overlay,
-  body.page-features.normal .hero-overlay {
-    background: linear-gradient(
-      to top,
-      rgba(0, 0, 0, 0.35) 0%,
-      rgba(0, 0, 0, 0.08) 28%,
-      transparent 55%
-    );
+  body.page-features .hero-overlay::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 46%;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    mask-image: linear-gradient(to top, #000 0%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to top, #000 0%, transparent 100%);
+    pointer-events: none;
+  }
+
+  body.page-features #featuresSection.section {
+    padding-top: clamp(2.25em, 8vw, 3.5em);
   }
 
   body.page-features .scroll-hint {
     bottom: max(1.5em, env(safe-area-inset-bottom, 0px));
     right: 1.25em;
+    color: var(--fg);
+    text-shadow: none;
+  }
+
+  body.page-features.heated .scroll-hint {
     color: #fafafa;
-    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
   }
 }
 
