@@ -45,8 +45,11 @@ function applyMode(mode) {
   document.body.classList.toggle("normal", !heated);
   if (modeToggle) {
     const isSummerPop = document.body.classList.contains("page-summer-pop");
+    const isInfluencers = document.body.classList.contains("page-influencers");
     if (isSummerPop) {
       modeToggle.textContent = heated ? "Pop" : "Cool";
+    } else if (isInfluencers) {
+      modeToggle.textContent = heated ? "Dark" : "Light";
     } else {
       modeToggle.textContent = heated ? "Cool" : "Heat";
     }
@@ -54,12 +57,41 @@ function applyMode(mode) {
   try { localStorage.setItem("hammer_online_mode", mode); } catch (e) {}
 }
 
-applyMode((() => {
-  try { return localStorage.getItem("hammer_online_mode"); }
-  catch (e) { return null; }
-})() === "heated" ? "heated" : "normal");
+function applyInfluencersTheme(theme) {
+  const isLight = theme === "light";
+  document.body.classList.toggle("theme-light", isLight);
+  document.body.classList.remove("heated");
+  document.body.classList.add("normal");
+  if (modeToggle) {
+    modeToggle.textContent = isLight ? "Dark" : "Light";
+  }
+  try { localStorage.setItem("hammer_influencers_theme", theme); } catch (e) {}
+}
+
+(function initPageMode() {
+  if (document.body.classList.contains("page-archiving")) {
+    applyMode("normal");
+    return;
+  }
+  if (document.body.classList.contains("page-influencers")) {
+    const saved = (() => {
+      try { return localStorage.getItem("hammer_influencers_theme"); }
+      catch (e) { return null; }
+    })();
+    applyInfluencersTheme(saved === "light" ? "light" : "dark");
+    return;
+  }
+  applyMode((() => {
+    try { return localStorage.getItem("hammer_online_mode"); }
+    catch (e) { return null; }
+  })() === "heated" ? "heated" : "normal");
+})();
 
 modeToggle?.addEventListener("click", () => {
+  if (document.body.classList.contains("page-influencers")) {
+    applyInfluencersTheme(document.body.classList.contains("theme-light") ? "dark" : "light");
+    return;
+  }
   applyMode(document.body.classList.contains("heated") ? "normal" : "heated");
 });
 
@@ -72,12 +104,66 @@ modeToggle?.addEventListener("click", () => {
 
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     splash.remove();
-    document.body.classList.add("nav-logo-visible");
+    showNavLogo();
     return;
   }
 
   function showNavLogo() {
     document.body.classList.add("nav-logo-visible");
+    showHeroMagicHint();
+  }
+
+  function showHeroMagicHint() {
+    const hint = document.getElementById("heroMagicHint");
+    const textEl = document.getElementById("heroMagicHintText");
+    const dotsEl = document.getElementById("heroMagicHintDots");
+    if (!hint || !textEl || !dotsEl || !window.matchMedia("(min-width: 769px)").matches) return;
+
+    const baseText = "The fun happens below";
+    const dotsPatterns = [".", "..", "...", ""];
+    let typeTimer = null;
+    let dotsTimer = null;
+
+    function clearHintTimers() {
+      clearTimeout(typeTimer);
+      clearTimeout(dotsTimer);
+    }
+
+    function startDotsLoop() {
+      let step = 0;
+      function tick() {
+        dotsEl.textContent = dotsPatterns[step];
+        step = (step + 1) % dotsPatterns.length;
+        dotsTimer = setTimeout(tick, 420);
+      }
+      tick();
+    }
+
+    clearHintTimers();
+    textEl.textContent = "";
+    dotsEl.textContent = "";
+    hint.hidden = false;
+    hint.setAttribute("aria-hidden", "false");
+    requestAnimationFrame(() => hint.classList.add("is-visible"));
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      textEl.textContent = baseText;
+      startDotsLoop();
+      return;
+    }
+
+    let index = 0;
+    function typeNextChar() {
+      if (index < baseText.length) {
+        textEl.textContent += baseText.charAt(index);
+        index += 1;
+        typeTimer = setTimeout(typeNextChar, 48);
+        return;
+      }
+      startDotsLoop();
+    }
+
+    typeNextChar();
   }
 
   function hideNavLogo() {
@@ -106,10 +192,10 @@ modeToggle?.addEventListener("click", () => {
   const MONTAGE_MS_PER_PHOTO = 200;
   const MONTAGE_LOGO_MS = 450;
   const MONTAGE_LOGO_BLINK_ON_MS = 90;
-  const FLASH_BLINK_CYCLES = 2;
-  const FLASH_BLINK_ON_MS = 150;
-  const FLASH_BLINK_OFF_MS = 150;
-  const FLASH_FINAL_HOLD_MS = 220;
+  const FLASH_BLINK_CYCLES = 1;
+  const FLASH_BLINK_ON_MS = 100;
+  const FLASH_BLINK_OFF_MS = 100;
+  const FLASH_FINAL_HOLD_MS = 150;
   const HERMES_FLASH_URL =
     "https://raw.githubusercontent.com/ta222222/hammer/refs/heads/main/pix/hermes-bag.jpeg";
 
@@ -724,7 +810,9 @@ document.querySelectorAll("[data-reveal]").forEach((el) => revealObs.observe(el)
   if (!article) return;
 
   const desktop = window.matchMedia("(min-width: 769px)");
-  const scrollStart = 1;
+  const isArchiving = document.body.classList.contains("page-archiving");
+  const rem = () => parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+  const scrollStart = isArchiving ? rem() * 2 : 1;
 
   const update = rafThrottle(() => {
     if (!desktop.matches) {
@@ -738,6 +826,22 @@ document.querySelectorAll("[data-reveal]").forEach((el) => revealObs.observe(el)
   window.addEventListener("scroll", update, { passive: true });
   window.addEventListener("resize", debounce(update, 150));
   desktop.addEventListener("change", update);
+})();
+
+/* archiving feature — white logo until ~1rem scroll */
+(function initArchivingHeaderLogo() {
+  if (!document.body.classList.contains("page-archiving")) return;
+
+  const threshold = () =>
+    parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+
+  const update = rafThrottle(() => {
+    document.body.classList.toggle("header-past-hero", window.scrollY > threshold());
+  });
+
+  update();
+  window.addEventListener("scroll", update, { passive: true });
+  window.addEventListener("resize", debounce(update, 150));
 })();
 
 /* auto-scroll image strip */

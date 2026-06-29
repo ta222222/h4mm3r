@@ -90,8 +90,6 @@
       spark.style.setProperty("--gy", `${rand(0, 100)}%`);
       spark.style.setProperty("--gw", `${rand(5, 11)}px`);
       spark.style.setProperty("--gs", `${rand(0.45, 1.35)}`);
-      spark.style.setProperty("--gdelay", `${rand(0, 0.35)}s`);
-      spark.style.setProperty("--gdur", `${rand(0.45, 0.9)}s`);
       frag.appendChild(spark);
     }
 
@@ -101,8 +99,6 @@
       dust.style.setProperty("--gx", `${rand(0, 100)}%`);
       dust.style.setProperty("--gy", `${rand(0, 100)}%`);
       dust.style.setProperty("--gw", `${rand(2, 5)}px`);
-      dust.style.setProperty("--gdelay", `${rand(0, 0.35)}s`);
-      dust.style.setProperty("--gdur", `${rand(0.4, 0.85)}s`);
       frag.appendChild(dust);
     }
 
@@ -110,7 +106,11 @@
   }
 
   function applyGlitter(on) {
-    if (on && !overlay.childElementCount) buildSparkles();
+    if (on) {
+      if (!overlay.childElementCount) buildSparkles();
+    } else {
+      overlay.replaceChildren();
+    }
     btn.setAttribute("aria-pressed", on ? "true" : "false");
     btn.textContent = on ? "No glitter" : "Glitter";
     document.body.classList.toggle("page-glitter", on);
@@ -129,14 +129,12 @@
     catch (e) { return false; }
   })();
 
-  if (savedOn) buildSparkles();
-  else if (typeof scheduleIdle === "function") scheduleIdle(buildSparkles);
-  else buildSparkles();
-
   applyGlitter(savedOn);
 
   window.addEventListener("resize", debounce(() => {
-    if (document.body.classList.contains("page-glitter") || overlay.childElementCount) buildSparkles();
+    if (document.body.classList.contains("page-glitter")) {
+      buildSparkles();
+    }
   }, 200));
 })();
 
